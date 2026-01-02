@@ -2,12 +2,26 @@ import { createClient } from '@supabase/supabase-js'
 
 // Use runtime env vars (window.ENV) in production, fallback to import.meta.env in development
 const getEnvVar = (key) => {
-  // Try window.ENV first (production runtime injection)
-  if (typeof window !== 'undefined' && window.ENV && window.ENV[key]) {
-    return window.ENV[key]
+  // In development, prefer import.meta.env over window.ENV
+  // In production (Docker), import.meta.env will be undefined, so window.ENV is used
+  const devValue = import.meta.env[key]
+
+  // If dev value exists and is not a placeholder, use it
+  if (devValue && !devValue.includes('PLACEHOLDER')) {
+    return devValue
   }
-  // Fallback to import.meta.env (development)
-  return import.meta.env[key]
+
+  // Otherwise try window.ENV (production runtime injection)
+  if (typeof window !== 'undefined' && window.ENV && window.ENV[key]) {
+    const runtimeValue = window.ENV[key]
+    // Don't use placeholder values
+    if (!runtimeValue.includes('PLACEHOLDER')) {
+      return runtimeValue
+    }
+  }
+
+  // Final fallback
+  return devValue
 }
 
 const supabaseUrl = getEnvVar('VITE_SUPABASE_URL')

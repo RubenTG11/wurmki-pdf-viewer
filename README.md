@@ -11,6 +11,9 @@ Eine moderne Webanwendung zum Anzeigen, Betrachten und Herunterladen von PDF-Dok
 - **Pagination**: Anpassbare Seitengröße (5, 10 oder 25 PDFs pro Seite)
 - **PDF-Anzeige**: PDFs öffnen sich in neuem Browser-Tab
 - **Download**: PDFs direkt herunterladen
+- **AI-Testfragen**: Generiere automatisch Testfragen mit OpenAI GPT-4.1-nano basierend auf Dokumentinhalten
+- **Rate Limiting**: 5 Testfragen-Generierungen pro Stunde pro Benutzer
+- **Markdown Support**: Vollständige Markdown-Unterstützung für Fragen/Antworten (Tabellen, Bilder, Code)
 - **Dark Theme**: Modernes dunkles Design mit Wurm-KI Branding (Emerald/Teal Farbschema)
 - **Responsive Design**: Optimiert für Desktop und Mobile mit Tailwind CSS
 - **Session Persistence**: Automatischer Login bei Seiten-Reload
@@ -173,6 +176,19 @@ CREATE POLICY "Authenticated users can view PDFs"
 ```
 
 4. Lade deine PDF-Dateien in den Bucket hoch
+
+### 5. Rate Limiting für Testfragen einrichten
+
+Führe das SQL-Script `setup-rate-limit.sql` im Supabase SQL Editor aus:
+
+```sql
+-- Kopiere und führe den Inhalt von setup-rate-limit.sql aus
+```
+
+Dieses Script erstellt:
+- Tabelle `test_question_generations` für das Tracking
+- RLS-Policies für Datenschutz
+- Cleanup-Funktion für alte Einträge
 
 ## Entwicklung starten
 
@@ -340,11 +356,14 @@ docker-compose up -d
    - Branch: `main` oder `master`
    - Build Pack: **Dockerfile**
 
-3. **Umgebungsvariablen setzen**:
+3. **Umgebungsvariablen setzen** (siehe `.env.production.example`):
    ```
-   VITE_SUPABASE_URL=https://dein-projekt.supabase.co
+   VITE_SUPABASE_URL=http://dein-supabase-server.io
    VITE_SUPABASE_ANON_KEY=dein-anon-key
    VITE_SUPABASE_BUCKET_NAME=fulldocs
+   VITE_OPENAI_API_KEY=sk-proj-dein-openai-key
+   VITE_OPENAI_MODEL=gpt-4.1-nano
+   VITE_OPENAI_BASE_URL=https://api.openai.com/v1
    ```
 
 4. **Port-Konfiguration**:
@@ -403,6 +422,16 @@ Bei Fragen oder Problemen:
 2. Überprüfe react-pdf Dokumentation: https://github.com/wojtekmaj/react-pdf
 
 ## Changelog
+
+### Version 3.0.0
+- AI-Testfragen-Generierung mit OpenAI GPT-4.1-nano
+- Intelligente Chunk-Auswahl aus Supabase `documents` Tabelle
+- Rate Limiting: 5 Generierungen pro Stunde pro Benutzer
+- Markdown-Rendering für Fragen und Antworten
+- Support für Tabellen, Bilder und Code in Testfragen
+- Visuelles Feedback für Rate-Limit-Status
+- Button wird ausgegraut, wenn Limit erreicht ist
+- Testfragen-Modal mit erweiterbaren Antworten
 
 ### Version 2.0.0
 - Admin-System mit Rollenbasierter Zugriffskontrolle

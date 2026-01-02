@@ -1,7 +1,9 @@
-import { BiDownload, BiShow, BiFile } from 'react-icons/bi'
+import { BiDownload, BiShow, BiFile, BiTask } from 'react-icons/bi'
 import { formatFileSize, formatDate } from '../../utils/pdfHelpers'
 
-const PDFCard = ({ pdf, onOpen, onDownload }) => {
+const PDFCard = ({ pdf, onOpen, onDownload, onGenerateQuestions, rateLimit }) => {
+  const isLimitReached = rateLimit && rateLimit.remaining === 0
+
   return (
     <div className="flex items-center justify-between p-5 bg-gray-800 border border-gray-700 rounded-xl hover:border-emerald-600 hover:shadow-xl hover:shadow-emerald-900/20 transition-all duration-200 group">
       {/* Left: File Info */}
@@ -52,6 +54,19 @@ const PDFCard = ({ pdf, onOpen, onDownload }) => {
         >
           <BiDownload className="mr-2" size={18} />
           Download
+        </button>
+        <button
+          onClick={() => onGenerateQuestions(pdf)}
+          disabled={isLimitReached}
+          className={`flex items-center px-4 py-2 rounded-lg transition-colors font-semibold shadow-lg ${
+            isLimitReached
+              ? 'bg-gray-600 text-gray-400 cursor-not-allowed shadow-gray-900/50'
+              : 'bg-purple-600 hover:bg-purple-700 text-white shadow-purple-900/50'
+          }`}
+          title={isLimitReached ? 'Limit erreicht - bitte warten' : 'Testfragen generieren'}
+        >
+          <BiTask className="mr-2" size={18} />
+          Testfragen
         </button>
       </div>
     </div>

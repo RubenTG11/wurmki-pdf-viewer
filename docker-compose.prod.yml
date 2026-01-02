@@ -6,9 +6,12 @@ services:
     ports:
       - "5555:80"
     environment:
-      - VITE_SUPABASE_BUCKET_NAME=fulldocs
-      - VITE_SUPABASE_URL=http://supabasekong-b484gk8g4k80go88s8k8ocko.138.199.215.24.sslip.io
-      - VITE_SUPABASE_ANON_KEY=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc2NjM0MTgwMCwiZXhwIjo0OTIyMDE1NDAwLCJyb2xlIjoiYW5vbiJ9.ML_5rOzdz5A8n5M6tx0A0rYR9Okd8QLdfcVp7eAXa0Y
+      - VITE_SUPABASE_BUCKET_NAME=${VITE_SUPABASE_BUCKET_NAME}
+      - VITE_SUPABASE_URL=${VITE_SUPABASE_URL}
+      - VITE_SUPABASE_ANON_KEY=${VITE_SUPABASE_ANON_KEY}
+      - VITE_OPENAI_API_KEY=${VITE_OPENAI_API_KEY}
+      - VITE_OPENAI_MODEL=${VITE_OPENAI_MODEL:-gpt-4.1-nano}
+      - VITE_OPENAI_BASE_URL=${VITE_OPENAI_BASE_URL:-https://api.openai.com/v1}
     restart: unless-stopped
     container_name: wurm-ki-viewer
     pull_policy: always

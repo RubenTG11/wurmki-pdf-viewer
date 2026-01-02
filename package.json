@@ -11,12 +11,16 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",
+    "openai": "^6.15.0",
+    "pdfjs-dist": "^3.11.174",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.21.0",
+    "react-icons": "^5.0.0",
+    "react-markdown": "^10.1.0",
     "react-pdf": "^7.6.0",
-    "pdfjs-dist": "^3.11.174",
-    "react-icons": "^5.0.0"
+    "react-router-dom": "^6.21.0",
+    "rehype-raw": "^7.0.0",
+    "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
