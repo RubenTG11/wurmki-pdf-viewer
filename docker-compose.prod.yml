@@ -2,8 +2,7 @@ version: '3.8'
 
 services:
   wurm-ki-viewer:
-    # Ersetze 'USERNAME' mit deinem GitHub Username oder Organisation
-    image: ghcr.io/USERNAME/supabasedocsviewer:latest
+    image: ghcr.io/rubentg11/wurmki-pdf-viewer:latest
     ports:
       - "5555:80"
     environment:
