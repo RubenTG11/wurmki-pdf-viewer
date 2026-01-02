@@ -2,21 +2,21 @@ import OpenAI from 'openai'
 
 // Get env vars with fallback for runtime injection
 const getEnvVar = (key) => {
-  // In development, prefer import.meta.env over window.ENV
-  const devValue = import.meta.env[key]
-
-  if (devValue && !devValue.includes('PLACEHOLDER')) {
-    return devValue
-  }
-
+  // First check window.ENV for runtime-injected values (production)
   if (typeof window !== 'undefined' && window.ENV && window.ENV[key]) {
     const runtimeValue = window.ENV[key]
-    if (!runtimeValue.includes('PLACEHOLDER')) {
+    if (runtimeValue && !runtimeValue.includes('PLACEHOLDER')) {
       return runtimeValue
     }
   }
 
-  return devValue
+  // Fallback to import.meta.env for development
+  const devValue = import.meta.env[key]
+  if (devValue && !devValue.includes('PLACEHOLDER')) {
+    return devValue
+  }
+
+  return undefined
 }
 
 // Lazy initialization - only create client when needed
