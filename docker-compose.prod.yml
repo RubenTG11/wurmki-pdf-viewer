@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  wurm-ki-viewer:
+    # Ersetze 'USERNAME' mit deinem GitHub Username oder Organisation
+    image: ghcr.io/USERNAME/supabasedocsviewer:latest
+    ports:
+      - "5555:80"
+    environment:
+      - VITE_SUPABASE_BUCKET_NAME=fulldocs
+      - VITE_SUPABASE_URL=http://supabasekong-b484gk8g4k80go88s8k8ocko.138.199.215.24.sslip.io
+      - VITE_SUPABASE_ANON_KEY=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc2NjM0MTgwMCwiZXhwIjo0OTIyMDE1NDAwLCJyb2xlIjoiYW5vbiJ9.ML_5rOzdz5A8n5M6tx0A0rYR9Okd8QLdfcVp7eAXa0Y
+    restart: unless-stopped
+    container_name: wurm-ki-viewer
+    pull_policy: always
